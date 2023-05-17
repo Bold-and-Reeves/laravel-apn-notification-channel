@@ -1,6 +1,6 @@
 <?php
 
-namespace SemyonChetvertnyh\ApnNotificationChannel\Exceptions;
+namespace BRDevelopers\ApnNotificationChannel\Exceptions;
 
 use Pushok\InvalidPayloadException as BaseException;
 

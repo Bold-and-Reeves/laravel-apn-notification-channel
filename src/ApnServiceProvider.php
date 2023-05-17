@@ -1,6 +1,6 @@
 <?php
 
-namespace SemyonChetvertnyh\ApnNotificationChannel;
+namespace BRDevelopers\ApnNotificationChannel;
 
 use Illuminate\Notifications\ChannelManager;
 use Illuminate\Support\ServiceProvider;

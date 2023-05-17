@@ -1,6 +1,6 @@
 <?php
 
-namespace SemyonChetvertnyh\ApnNotificationChannel;
+namespace BRDevelopers\ApnNotificationChannel;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Notifications\Notification;
@@ -8,27 +8,27 @@ use Pushok\Client;
 use Pushok\Notification as PushokNotification;
 use Pushok\Payload;
 use Pushok\Payload\Alert;
-use SemyonChetvertnyh\ApnNotificationChannel\Exceptions\CouldNotSendNotification;
-use SemyonChetvertnyh\ApnNotificationChannel\Exceptions\InvalidPayloadException;
+use BRDevelopers\ApnNotificationChannel\Exceptions\CouldNotSendNotification;
+use BRDevelopers\ApnNotificationChannel\Exceptions\InvalidPayloadException;
 
 class ApnChannel
 {
     /**
-     * The Pushok Client instance.
+     * The Pushok Client factory.
      *
-     * @var \Pushok\Client
+     * @var ClientFactory
      */
-    protected $client;
+    protected $client_factory;
 
     /**
      * Create an instance of APN channel.
      *
-     * @param  \Pushok\Client  $client
+     * @param  ClientFactory  $client_factory
      * @return void
      */
-    public function __construct(Client $client)
+    public function __construct(ClientFactory $client_factory)
     {
-        $this->client = $client;
+        $this->client_factory = $client_factory;
     }
 
     /**
@@ -38,8 +38,8 @@ class ApnChannel
      * @param  \Illuminate\Notifications\Notification  $notification
      * @return void
      *
-     * @throws \SemyonChetvertnyh\ApnNotificationChannel\Exceptions\InvalidPayloadException
-     * @throws \SemyonChetvertnyh\ApnNotificationChannel\Exceptions\CouldNotSendNotification
+     * @throws \BRDevelopers\ApnNotificationChannel\Exceptions\InvalidPayloadException
+     * @throws \BRDevelopers\ApnNotificationChannel\Exceptions\CouldNotSendNotification
      */
     public function send($notifiable, Notification $notification)
     {
@@ -47,11 +47,13 @@ class ApnChannel
             return;
         }
 
-        $this->client->addNotifications(
+        $client = $this->client_factory->instance();
+
+        $client->addNotifications(
             $this->notifications($notification->toApn($notifiable), $deviceTokens)
         );
 
-        $responses = $this->client->push();
+        $responses = $client->push();
 
         ApnsResponseCollection::make($responses)
             ->onlyUnsuccessful()
@@ -63,7 +65,7 @@ class ApnChannel
     /**
      * Format an array with notifications.
      *
-     * @param  \SemyonChetvertnyh\ApnNotificationChannel\ApnMessage  $message
+     * @param  \BRDevelopers\ApnNotificationChannel\ApnMessage  $message
      * @param  \Illuminate\Contracts\Support\Arrayable|array  $deviceTokens
      * @return \Pushok\Notification[]
      */
@@ -79,10 +81,10 @@ class ApnChannel
     /**
      * Format a payload.
      *
-     * @param  \SemyonChetvertnyh\ApnNotificationChannel\ApnMessage  $message
+     * @param  \BRDevelopers\ApnNotificationChannel\ApnMessage  $message
      * @return \Pushok\Payload
      *
-     * @throws \SemyonChetvertnyh\ApnNotificationChannel\Exceptions\InvalidPayloadException
+     * @throws \BRDevelopers\ApnNotificationChannel\Exceptions\InvalidPayloadException
      */
     protected function payload(ApnMessage $message)
     {
@@ -127,7 +129,7 @@ class ApnChannel
     /**
      * Format an alert.
      *
-     * @param  \SemyonChetvertnyh\ApnNotificationChannel\ApnMessage  $message
+     * @param  \BRDevelopers\ApnNotificationChannel\ApnMessage  $message
      * @return \Pushok\Payload\Alert
      */
     protected function alert(ApnMessage $message)

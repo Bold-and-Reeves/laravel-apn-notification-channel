@@ -1,6 +1,6 @@
 <?php
 
-namespace SemyonChetvertnyh\ApnNotificationChannel;
+namespace BRDevelopers\ApnNotificationChannel;
 
 use Illuminate\Support\Collection;
 use Pushok\ApnsResponseInterface;
@@ -10,7 +10,7 @@ class ApnsResponseCollection extends Collection
     /**
      * Filter to only unsuccessful responses.
      *
-     * @return \SemyonChetvertnyh\ApnNotificationChannel\ApnsResponseCollection
+     * @return \BRDevelopers\ApnNotificationChannel\ApnsResponseCollection
      */
     public function onlyUnsuccessful()
     {
@@ -22,7 +22,7 @@ class ApnsResponseCollection extends Collection
     /**
      * Filter to having outdated token responses.
      *
-     * @return \SemyonChetvertnyh\ApnNotificationChannel\ApnsResponseCollection
+     * @return \BRDevelopers\ApnNotificationChannel\ApnsResponseCollection
      */
     public function havingOutdatedDeviceToken()
     {
