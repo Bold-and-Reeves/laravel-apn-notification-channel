@@ -26,7 +26,7 @@ class ApnServiceProvider extends ServiceProvider
 
         $this->app->make(ChannelManager::class)->extend('apn', function () {
             return new ApnChannel(
-                $this->app->make(Client::class)
+                $this->app->make(ClientFactory::class)
             );
         });
     }
