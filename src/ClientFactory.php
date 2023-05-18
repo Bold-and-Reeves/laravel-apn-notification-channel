@@ -14,7 +14,7 @@ class ClientFactory
      *
      * @var int
      */
-    const CACHE_MINUTES = 20;
+    const CACHE_MINUTES = 30;
 
     /**
      * The app instance.
